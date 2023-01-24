@@ -1,6 +1,6 @@
 ---
-title: "Weekly Summary Template"
-author: "Author Name"
+title: "Week 3 Summary"
+author: "Leo Soccio"
 title-block-banner: true
 title-block-style: default
 toc: true
@@ -8,59 +8,133 @@ format: html
 # format: pdf
 ---
 
----
+------------------------------------------------------------------------
 
 ## Tuesday, Jan 17
 
-::: {.callout-important}
+::: callout-important
 ## TIL
 
-Include a _very brief_ summary of what you learnt in this class here. 
+Include a *very brief* summary of what you learnt in this class here.
 
 Today, I learnt the following concepts in class:
 
-1. Item 1
-1. Item 2
-1. Item 3
+1.  Item 1
+2.  Item 2
+3.  Item 3
 :::
 
-Provide more concrete details here. You can also use footenotes[^footnote] if you like
+Provide more concrete details here. You can also use footenotes[^1] if you like
 
-```{R results='hide'}
-#| output: false
+[^1]: You can include some footnotes here
+
+Tuesday agenda: read.csv, dplyr, ggplot2, ggplotthemes
+
+#### Reading in files
+
+Manually hard coding data into R (tedious for data sets any larger than this):
+
+```{R}
+data_hard_code <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(21,25,35),
+  Height = c(5.5,6.2,5.9)
+)
+
+data_hard_code %>% knitr::kable()
+```
+
+Reading in a csv file:
+
+```{R}
+data_from_csv <- read.csv("./data12423.csv")
+
+data_from_csv
+```
+
+More advanced and efficient methods to read files:
+
+-   "read_csv" from tidyverse
+
+-   "data.table" package in R
+
+#### Now that we have a dataset, we can begin to analyze it.
+
+dyplr and ggplot2 are very helpful for **Exploratory Data Analysis.**
+
+##### dyplr
+
+dyplr provides a set of "verbs" for manipulating data.
+
+We will use the Cars dataset as an example.
+
+```{R}
+library(ggplot2)
 library(dplyr)
-library(purrr)
+head(mpg,5)
 ```
 
+We will also look at the Iris dataset.
 
-For example: 
-in class we learnt we learnt about the `map` function from the `purrr` package. 
-
-
-```{R results='hide', fig.width=7, fig.height=7}
-par(mfrow=c(3, 3), mar=c(3.5, 3.5, 2, 1), mgp=c(2.4, 0.8, 0))
-map(1:9, function(i)rnorm(1000) %>% hist(., main=i, col=i))
+```{R}
+head(iris,5)
 ```
+
+**Cleaning datasets:**
+
+* Distinct cases where a particular variable's values are of the same data type.
+
+This is what dyplr is for.
+
+Examples:
+```{R}
+mpg%>%
+  select(c(model,displ)) # selects particular columns
+
+iris%>%
+  mutate(Sepal_Area = Sepal.Length * Sepal.Width) # creates a new variable based on existing ones
+
+mpg%>%
+  filter(class == "compact") # selects particular cases based on a set of criteria
+
+
+```
+Other verbs include summary(), pivot_longer(), pivot_wider(), left_join(), inner_join(), etc.
+
+##### ggplot2
+
+* The "gg" in ggplot2 stands for "Grammar of Graphics". There is NO ggplot1.
+
+Quick example: 
+```{R}
+plt <- ggplot(iris) # use the iris dataset for ggplot
+
+plt + geom_point(aes(x=Petal.Length, y=Sepal.Length)) # add points to the graph
+
+plt + geom_point(aes(x=Petal.Length, y=Sepal.Length, color=Species)) # color by species
+
+plt + geom_point(aes(x=Petal.Length, y=Sepal.Length, color=Species)) +
+  geom_smooth(aes(x=Petal.Length, y=Sepal.Length, group=Species), method="lm", se=FALSE) # create a linear trendline for each species' data without the standard error margins
+```
+
 
 
 
 ## Thursday, Jan 19
 
-
-
-::: {.callout-important}
+::: callout-important
 ## TIL
 
-Include a _very brief_ summary of what you learnt in this class here. 
+Include a *very brief* summary of what you learnt in this class here.
 
 Today, I learnt the following concepts in class:
 
-1. Item 1
-1. Item 2
-1. Item 3
+1.  Item 1
+2.  Item 2
+3.  Item 3
 :::
 
-Provide more concrete details here, e.g., 
+Provide more concrete details here, e.g.,
 
 In class we learnt how to use the `map` function to create multiple regression diagnostic plots
 
@@ -71,6 +145,3 @@ mtcars %>%
   map(~ lm(mpg ~ wt, data = .x)) %>%
   map(function(x)plot(x, which=c(1, 2)))
 ```
-
-
-[^footnote]: You can include some footnotes here
