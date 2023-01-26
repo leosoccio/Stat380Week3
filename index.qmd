@@ -19,16 +19,14 @@ Include a *very brief* summary of what you learnt in this class here.
 
 Today, I learnt the following concepts in class:
 
-1.  Item 1
-2.  Item 2
-3.  Item 3
+1.  Reading in files
+2.  Review basic dyplr functions
+3.  Review basic ggplot2 functions
 :::
 
-Provide more concrete details here. You can also use footenotes[^1] if you like
+Provide more concrete details here. You can also use footnotes[^1] if you like
 
 [^1]: You can include some footnotes here
-
-Tuesday agenda: read.csv, dplyr, ggplot2, ggplotthemes
 
 #### Reading in files
 
@@ -82,11 +80,13 @@ head(iris,5)
 
 **Cleaning datasets:**
 
-* Distinct cases where a particular variable's values are of the same data type.
+-   Distinct cases where a particular variable's values are of the same data type.
+-   Every observation has its own row, every variable has its own column
 
 This is what dyplr is for.
 
 Examples:
+
 ```{R}
 mpg%>%
   select(c(model,displ)) # selects particular columns
@@ -99,13 +99,15 @@ mpg%>%
 
 
 ```
+
 Other verbs include summary(), pivot_longer(), pivot_wider(), left_join(), inner_join(), etc.
 
 ##### ggplot2
 
-* The "gg" in ggplot2 stands for "Grammar of Graphics". There is NO ggplot1.
+-   The "gg" in ggplot2 stands for "Grammar of Graphics". There is NO ggplot1.
 
-Quick example: 
+Quick example:
+
 ```{R}
 plt <- ggplot(iris) # use the iris dataset for ggplot
 
@@ -117,9 +119,6 @@ plt + geom_point(aes(x=Petal.Length, y=Sepal.Length, color=Species)) +
   geom_smooth(aes(x=Petal.Length, y=Sepal.Length, group=Species), method="lm", se=FALSE) # create a linear trendline for each species' data without the standard error margins
 ```
 
-
-
-
 ## Thursday, Jan 19
 
 ::: callout-important
@@ -129,19 +128,131 @@ Include a *very brief* summary of what you learnt in this class here.
 
 Today, I learnt the following concepts in class:
 
-1.  Item 1
-2.  Item 2
-3.  Item 3
+1.  How to use the ggThemeAssist package
+2.  Basics of the forcats package and factors
+3.  Basics of the map() function
 :::
 
-Provide more concrete details here, e.g.,
+Provide more concrete details here:
 
-In class we learnt how to use the `map` function to create multiple regression diagnostic plots
+#### ggthemeassist
 
-```{R results='hide', fig.height=4}
-par(mfcol=c(2, 3), mar=c(3.5, 3.5, 2, 1), mgp=c(2.4, 0.8, 0))
-mtcars %>%
-  split(.$cyl) %>%
-  map(~ lm(mpg ~ wt, data = .x)) %>%
-  map(function(x)plot(x, which=c(1, 2)))
+```{R}
+ggplot(mpg) +
+  geom_point(aes(x=displ, y=hwy)) + theme(plot.background = element_rect(fill = "white")) +labs(title = "Plot of Displacement vs Highway Miles per Gallon",
+    x = "Displacement", y = "Highway mpg")
+
+# highlight code --> "addins" at top of RStudio --> ggThemeAssist
 ```
+
+#### More on data types
+
+1. string, ex. "this is a string"
+2. integer, ex. 3
+3. double, ex. 2.24
+4. booleans, ex. TRUE
+
+##### Factors and forcats package
+
+Factors are categorical variables, let's look at an example:
+
+"var" contains the country code for people in North America
+
+```{R}
+var <- c(
+  "USA",
+  "USA",
+  "CAN",
+  "CAN",
+  "CAN",
+  "CAN",
+  "MEX",
+  "MEX"
+  )
+var
+```
+
+To tell R that this is categorical and not just a vector of strings, specify using as.factor()
+
+```{R}
+as.factor(var)
+```
+
+Another example:
+```{R}
+head(iris,3)
+
+iris$Species
+```
+
+Also look at mpg
+```{R}
+head(mpg, 3)
+as.factor(mpg$class)
+```
+
+When working with data, we will often need to specify the data type so keeping track of things like this is very useful.
+
+The forcats package is useful when working with factors:
+```{R}
+library(forcats)
+manufacturer <- as.factor(mpg$manufacturer)
+fct_reorder(manufacturer, mpg$hwy, min)
+```
+We will return to this in a few weeks for logistic regression.
+
+##### purr package
+
+This package provides functional programming tools. Example:
+
+Consider the following procedure:
+
+1. Filter iris by species
+2. Compute Sepal.Area as Sepal.Length times Sepal.Width
+3. Find the average Sepal.Area for each species.
+
+```{R}
+#using dplyr
+library(dplyr)
+iris %>%
+  mutate(Sepal.Area=Sepal.Length*Sepal.Width)%>%
+  group_by(Species)%>%
+  summarize(Average = mean(Sepal.Area))
+```
+
+Consider a more difficult task:
+1. Take a number i
+2. Create a matrix with random entries of dimension i times i 
+3. Compute the average of the elements of the matrix
+4. Print result
+
+```{R}
+#using for
+results<-c()
+for(i in 1:10){
+  M <- matrix(
+    runif(i*i), nrow=i
+  )
+  results[i]<- mean(M)
+}
+results
+```
+
+A functional way to approach the same problem: i -> M[ixi] -> mean(M)
+```{R}
+library(purrr)
+map(
+  1:10,
+  function(i){
+    mean(
+      matrix(
+        c(1:i*i), nrow=i
+      )
+    )
+  }
+)
+```
+
+
+
+
