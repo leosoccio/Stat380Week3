@@ -20,8 +20,8 @@ Include a *very brief* summary of what you learnt in this class here.
 Today, I learnt the following concepts in class:
 
 1.  Reading in files
-2.  Review basic dyplr functions
-3.  Review basic ggplot2 functions
+2.  Reviewed basic dyplr functions
+3.  Reviewed basic ggplot2 functions
 :::
 
 Provide more concrete details here. You can also use footnotes[^1] if you like
@@ -39,7 +39,7 @@ data_hard_code <- data.frame(
   Height = c(5.5,6.2,5.9)
 )
 
-data_hard_code %>% knitr::kable()
+data_hard_code
 ```
 
 Reading in a csv file:
@@ -64,7 +64,7 @@ dyplr and ggplot2 are very helpful for **Exploratory Data Analysis.**
 
 dyplr provides a set of "verbs" for manipulating data.
 
-We will use the Cars dataset as an example.
+We will use the mpg dataset as an example.
 
 ```{R}
 library(ggplot2)
@@ -131,6 +131,7 @@ Today, I learnt the following concepts in class:
 1.  How to use the ggThemeAssist package
 2.  Basics of the forcats package and factors
 3.  Basics of the map() function
+4.  Brief purrr introduction
 :::
 
 Provide more concrete details here:
@@ -147,14 +148,15 @@ ggplot(mpg) +
 
 #### More on data types
 
-1. string, ex. "this is a string"
-2. integer, ex. 3
-3. double, ex. 2.24
-4. booleans, ex. TRUE
+1.  string, ex. "this is a string"
+2.  integer, ex. 3
+3.  double, ex. 2.24
+4.  booleans, ex. TRUE
+5.  **Factors** for categorical variables.
 
 ##### Factors and forcats package
 
-Factors are categorical variables, let's look at an example:
+Factors are used in categorical variables, let's look at an example:
 
 "var" contains the country code for people in North America
 
@@ -179,6 +181,7 @@ as.factor(var)
 ```
 
 Another example:
+
 ```{R}
 head(iris,3)
 
@@ -186,6 +189,7 @@ iris$Species
 ```
 
 Also look at mpg
+
 ```{R}
 head(mpg, 3)
 as.factor(mpg$class)
@@ -194,37 +198,25 @@ as.factor(mpg$class)
 When working with data, we will often need to specify the data type so keeping track of things like this is very useful.
 
 The forcats package is useful when working with factors:
+
 ```{R}
 library(forcats)
 manufacturer <- as.factor(mpg$manufacturer)
 fct_reorder(manufacturer, mpg$hwy, min)
 ```
+
 We will return to this in a few weeks for logistic regression.
 
 ##### purr package
 
 This package provides functional programming tools. Example:
 
-Consider the following procedure:
+Consider this task:
 
-1. Filter iris by species
-2. Compute Sepal.Area as Sepal.Length times Sepal.Width
-3. Find the average Sepal.Area for each species.
-
-```{R}
-#using dplyr
-library(dplyr)
-iris %>%
-  mutate(Sepal.Area=Sepal.Length*Sepal.Width)%>%
-  group_by(Species)%>%
-  summarize(Average = mean(Sepal.Area))
-```
-
-Consider a more difficult task:
-1. Take a number i
-2. Create a matrix with random entries of dimension i times i 
-3. Compute the average of the elements of the matrix
-4. Print result
+1.  Take a number i
+2.  Create a matrix with random entries of dimension i times i
+3.  Compute the average of the elements of the matrix
+4.  Print result
 
 ```{R}
 #using for
@@ -238,7 +230,8 @@ for(i in 1:10){
 results
 ```
 
-A functional way to approach the same problem: i -> M[ixi] -> mean(M)
+A functional way to approach the same problem: i -\> M\[ixi\] -\> mean(M)
+
 ```{R}
 library(purrr)
 map(
@@ -252,7 +245,3 @@ map(
   }
 )
 ```
-
-
-
-

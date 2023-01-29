@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Author Name">
+<meta name="author" content="Leo Soccio">
 
-<title>Weekly Summary Template</title>
+<title>Week 3 Summary</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -106,7 +106,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Weekly Summary Template</h1>
+      <h1 class="title">Week 3 Summary</h1>
                       </div>
   </div>
     
@@ -116,7 +116,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p>Author Name </p>
+               <p>Leo Soccio </p>
             </div>
     </div>
       
@@ -157,25 +157,327 @@ TIL
 <p>Include a <em>very brief</em> summary of what you learnt in this class here.</p>
 <p>Today, I learnt the following concepts in class:</p>
 <ol type="1">
-<li>Item 1</li>
-<li>Item 2</li>
-<li>Item 3</li>
+<li>Reading in files</li>
+<li>Reviewed basic dyplr functions</li>
+<li>Reviewed basic ggplot2 functions</li>
 </ol>
 </div>
 </div>
-<p>Provide more concrete details here. You can also use footenotes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> if you like</p>
+<p>Provide more concrete details here. You can also use footnotes<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> if you like</p>
+<section id="reading-in-files" class="level4">
+<h4 class="anchored" data-anchor-id="reading-in-files">Reading in files</h4>
+<p>Manually hard coding data into R (tedious for data sets any larger than this):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_hard_code <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Charlie"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Age =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">25</span>,<span class="dv">35</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Height =</span> <span class="fu">c</span>(<span class="fl">5.5</span>,<span class="fl">6.2</span>,<span class="fl">5.9</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data_hard_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Name Age Height
+1   Alice  21    5.5
+2     Bob  25    6.2
+3 Charlie  35    5.9</code></pre>
 </div>
-<p>For example: in class we learnt we learnt about the <code>map</code> function from the <code>purrr</code> package.</p>
+</div>
+<p>Reading in a csv file:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">3.5</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">2.4</span>, <span class="fl">0.8</span>, <span class="dv">0</span>))</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="cf">function</span>(i)<span class="fu">rnorm</span>(<span class="dv">1000</span>) <span class="sc">%&gt;%</span> <span class="fu">hist</span>(., <span class="at">main=</span>i, <span class="at">col=</span>i))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_from_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"./data12423.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>data_from_csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     name age height
+1   Alice  21    5.5
+2     Bob  25    6.2
+3 Charlie  35    5.9</code></pre>
+</div>
+</div>
+<p>More advanced and efficient methods to read files:</p>
+<ul>
+<li><p>“read_csv” from tidyverse</p></li>
+<li><p>“data.table” package in R</p></li>
+</ul>
+</section>
+<section id="now-that-we-have-a-dataset-we-can-begin-to-analyze-it." class="level4">
+<h4 class="anchored" data-anchor-id="now-that-we-have-a-dataset-we-can-begin-to-analyze-it.">Now that we have a dataset, we can begin to analyze it.</h4>
+<p>dyplr and ggplot2 are very helpful for <strong>Exploratory Data Analysis.</strong></p>
+<section id="dyplr" class="level5">
+<h5 class="anchored" data-anchor-id="dyplr">dyplr</h5>
+<p>dyplr provides a set of “verbs” for manipulating data.</p>
+<p>We will use the mpg dataset as an example.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mpg,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 11
+  manufacturer model displ  year   cyl trans      drv     cty   hwy fl    class 
+  &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; 
+1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compa…
+2 audi         a4      1.8  1999     4 manual(m5) f        21    29 p     compa…
+3 audi         a4      2    2008     4 manual(m6) f        20    31 p     compa…
+4 audi         a4      2    2008     4 auto(av)   f        21    30 p     compa…
+5 audi         a4      2.8  1999     6 auto(l5)   f        16    26 p     compa…</code></pre>
+</div>
+</div>
+<p>We will also look at the Iris dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris,<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa
+4          4.6         3.1          1.5         0.2  setosa
+5          5.0         3.6          1.4         0.2  setosa</code></pre>
+</div>
+</div>
+<p><strong>Cleaning datasets:</strong></p>
+<ul>
+<li>Distinct cases where a particular variable’s values are of the same data type.</li>
+<li>Every observation has its own row, every variable has its own column</li>
+</ul>
+<p>This is what dyplr is for.</p>
+<p>Examples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mpg<span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(model,displ)) <span class="co"># selects particular columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 234 × 2
+   model      displ
+   &lt;chr&gt;      &lt;dbl&gt;
+ 1 a4           1.8
+ 2 a4           1.8
+ 3 a4           2  
+ 4 a4           2  
+ 5 a4           2.8
+ 6 a4           2.8
+ 7 a4           3.1
+ 8 a4 quattro   1.8
+ 9 a4 quattro   1.8
+10 a4 quattro   2  
+# … with 224 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Sepal_Area =</span> Sepal.Length <span class="sc">*</span> Sepal.Width) <span class="co"># creates a new variable based on existing ones</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species Sepal_Area
+1            5.1         3.5          1.4         0.2     setosa      17.85
+2            4.9         3.0          1.4         0.2     setosa      14.70
+3            4.7         3.2          1.3         0.2     setosa      15.04
+4            4.6         3.1          1.5         0.2     setosa      14.26
+5            5.0         3.6          1.4         0.2     setosa      18.00
+6            5.4         3.9          1.7         0.4     setosa      21.06
+7            4.6         3.4          1.4         0.3     setosa      15.64
+8            5.0         3.4          1.5         0.2     setosa      17.00
+9            4.4         2.9          1.4         0.2     setosa      12.76
+10           4.9         3.1          1.5         0.1     setosa      15.19
+11           5.4         3.7          1.5         0.2     setosa      19.98
+12           4.8         3.4          1.6         0.2     setosa      16.32
+13           4.8         3.0          1.4         0.1     setosa      14.40
+14           4.3         3.0          1.1         0.1     setosa      12.90
+15           5.8         4.0          1.2         0.2     setosa      23.20
+16           5.7         4.4          1.5         0.4     setosa      25.08
+17           5.4         3.9          1.3         0.4     setosa      21.06
+18           5.1         3.5          1.4         0.3     setosa      17.85
+19           5.7         3.8          1.7         0.3     setosa      21.66
+20           5.1         3.8          1.5         0.3     setosa      19.38
+21           5.4         3.4          1.7         0.2     setosa      18.36
+22           5.1         3.7          1.5         0.4     setosa      18.87
+23           4.6         3.6          1.0         0.2     setosa      16.56
+24           5.1         3.3          1.7         0.5     setosa      16.83
+25           4.8         3.4          1.9         0.2     setosa      16.32
+26           5.0         3.0          1.6         0.2     setosa      15.00
+27           5.0         3.4          1.6         0.4     setosa      17.00
+28           5.2         3.5          1.5         0.2     setosa      18.20
+29           5.2         3.4          1.4         0.2     setosa      17.68
+30           4.7         3.2          1.6         0.2     setosa      15.04
+31           4.8         3.1          1.6         0.2     setosa      14.88
+32           5.4         3.4          1.5         0.4     setosa      18.36
+33           5.2         4.1          1.5         0.1     setosa      21.32
+34           5.5         4.2          1.4         0.2     setosa      23.10
+35           4.9         3.1          1.5         0.2     setosa      15.19
+36           5.0         3.2          1.2         0.2     setosa      16.00
+37           5.5         3.5          1.3         0.2     setosa      19.25
+38           4.9         3.6          1.4         0.1     setosa      17.64
+39           4.4         3.0          1.3         0.2     setosa      13.20
+40           5.1         3.4          1.5         0.2     setosa      17.34
+41           5.0         3.5          1.3         0.3     setosa      17.50
+42           4.5         2.3          1.3         0.3     setosa      10.35
+43           4.4         3.2          1.3         0.2     setosa      14.08
+44           5.0         3.5          1.6         0.6     setosa      17.50
+45           5.1         3.8          1.9         0.4     setosa      19.38
+46           4.8         3.0          1.4         0.3     setosa      14.40
+47           5.1         3.8          1.6         0.2     setosa      19.38
+48           4.6         3.2          1.4         0.2     setosa      14.72
+49           5.3         3.7          1.5         0.2     setosa      19.61
+50           5.0         3.3          1.4         0.2     setosa      16.50
+51           7.0         3.2          4.7         1.4 versicolor      22.40
+52           6.4         3.2          4.5         1.5 versicolor      20.48
+53           6.9         3.1          4.9         1.5 versicolor      21.39
+54           5.5         2.3          4.0         1.3 versicolor      12.65
+55           6.5         2.8          4.6         1.5 versicolor      18.20
+56           5.7         2.8          4.5         1.3 versicolor      15.96
+57           6.3         3.3          4.7         1.6 versicolor      20.79
+58           4.9         2.4          3.3         1.0 versicolor      11.76
+59           6.6         2.9          4.6         1.3 versicolor      19.14
+60           5.2         2.7          3.9         1.4 versicolor      14.04
+61           5.0         2.0          3.5         1.0 versicolor      10.00
+62           5.9         3.0          4.2         1.5 versicolor      17.70
+63           6.0         2.2          4.0         1.0 versicolor      13.20
+64           6.1         2.9          4.7         1.4 versicolor      17.69
+65           5.6         2.9          3.6         1.3 versicolor      16.24
+66           6.7         3.1          4.4         1.4 versicolor      20.77
+67           5.6         3.0          4.5         1.5 versicolor      16.80
+68           5.8         2.7          4.1         1.0 versicolor      15.66
+69           6.2         2.2          4.5         1.5 versicolor      13.64
+70           5.6         2.5          3.9         1.1 versicolor      14.00
+71           5.9         3.2          4.8         1.8 versicolor      18.88
+72           6.1         2.8          4.0         1.3 versicolor      17.08
+73           6.3         2.5          4.9         1.5 versicolor      15.75
+74           6.1         2.8          4.7         1.2 versicolor      17.08
+75           6.4         2.9          4.3         1.3 versicolor      18.56
+76           6.6         3.0          4.4         1.4 versicolor      19.80
+77           6.8         2.8          4.8         1.4 versicolor      19.04
+78           6.7         3.0          5.0         1.7 versicolor      20.10
+79           6.0         2.9          4.5         1.5 versicolor      17.40
+80           5.7         2.6          3.5         1.0 versicolor      14.82
+81           5.5         2.4          3.8         1.1 versicolor      13.20
+82           5.5         2.4          3.7         1.0 versicolor      13.20
+83           5.8         2.7          3.9         1.2 versicolor      15.66
+84           6.0         2.7          5.1         1.6 versicolor      16.20
+85           5.4         3.0          4.5         1.5 versicolor      16.20
+86           6.0         3.4          4.5         1.6 versicolor      20.40
+87           6.7         3.1          4.7         1.5 versicolor      20.77
+88           6.3         2.3          4.4         1.3 versicolor      14.49
+89           5.6         3.0          4.1         1.3 versicolor      16.80
+90           5.5         2.5          4.0         1.3 versicolor      13.75
+91           5.5         2.6          4.4         1.2 versicolor      14.30
+92           6.1         3.0          4.6         1.4 versicolor      18.30
+93           5.8         2.6          4.0         1.2 versicolor      15.08
+94           5.0         2.3          3.3         1.0 versicolor      11.50
+95           5.6         2.7          4.2         1.3 versicolor      15.12
+96           5.7         3.0          4.2         1.2 versicolor      17.10
+97           5.7         2.9          4.2         1.3 versicolor      16.53
+98           6.2         2.9          4.3         1.3 versicolor      17.98
+99           5.1         2.5          3.0         1.1 versicolor      12.75
+100          5.7         2.8          4.1         1.3 versicolor      15.96
+101          6.3         3.3          6.0         2.5  virginica      20.79
+102          5.8         2.7          5.1         1.9  virginica      15.66
+103          7.1         3.0          5.9         2.1  virginica      21.30
+104          6.3         2.9          5.6         1.8  virginica      18.27
+105          6.5         3.0          5.8         2.2  virginica      19.50
+106          7.6         3.0          6.6         2.1  virginica      22.80
+107          4.9         2.5          4.5         1.7  virginica      12.25
+108          7.3         2.9          6.3         1.8  virginica      21.17
+109          6.7         2.5          5.8         1.8  virginica      16.75
+110          7.2         3.6          6.1         2.5  virginica      25.92
+111          6.5         3.2          5.1         2.0  virginica      20.80
+112          6.4         2.7          5.3         1.9  virginica      17.28
+113          6.8         3.0          5.5         2.1  virginica      20.40
+114          5.7         2.5          5.0         2.0  virginica      14.25
+115          5.8         2.8          5.1         2.4  virginica      16.24
+116          6.4         3.2          5.3         2.3  virginica      20.48
+117          6.5         3.0          5.5         1.8  virginica      19.50
+118          7.7         3.8          6.7         2.2  virginica      29.26
+119          7.7         2.6          6.9         2.3  virginica      20.02
+120          6.0         2.2          5.0         1.5  virginica      13.20
+121          6.9         3.2          5.7         2.3  virginica      22.08
+122          5.6         2.8          4.9         2.0  virginica      15.68
+123          7.7         2.8          6.7         2.0  virginica      21.56
+124          6.3         2.7          4.9         1.8  virginica      17.01
+125          6.7         3.3          5.7         2.1  virginica      22.11
+126          7.2         3.2          6.0         1.8  virginica      23.04
+127          6.2         2.8          4.8         1.8  virginica      17.36
+128          6.1         3.0          4.9         1.8  virginica      18.30
+129          6.4         2.8          5.6         2.1  virginica      17.92
+130          7.2         3.0          5.8         1.6  virginica      21.60
+131          7.4         2.8          6.1         1.9  virginica      20.72
+132          7.9         3.8          6.4         2.0  virginica      30.02
+133          6.4         2.8          5.6         2.2  virginica      17.92
+134          6.3         2.8          5.1         1.5  virginica      17.64
+135          6.1         2.6          5.6         1.4  virginica      15.86
+136          7.7         3.0          6.1         2.3  virginica      23.10
+137          6.3         3.4          5.6         2.4  virginica      21.42
+138          6.4         3.1          5.5         1.8  virginica      19.84
+139          6.0         3.0          4.8         1.8  virginica      18.00
+140          6.9         3.1          5.4         2.1  virginica      21.39
+141          6.7         3.1          5.6         2.4  virginica      20.77
+142          6.9         3.1          5.1         2.3  virginica      21.39
+143          5.8         2.7          5.1         1.9  virginica      15.66
+144          6.8         3.2          5.9         2.3  virginica      21.76
+145          6.7         3.3          5.7         2.5  virginica      22.11
+146          6.7         3.0          5.2         2.3  virginica      20.10
+147          6.3         2.5          5.0         1.9  virginica      15.75
+148          6.5         3.0          5.2         2.0  virginica      19.50
+149          6.2         3.4          5.4         2.3  virginica      21.08
+150          5.9         3.0          5.1         1.8  virginica      17.70</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mpg<span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(class <span class="sc">==</span> <span class="st">"compact"</span>) <span class="co"># selects particular cases based on a set of criteria</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 47 × 11
+   manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+   &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+ 1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+ 2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+ 3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+ 4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+ 5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+ 6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+ 7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+ 8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+ 9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+# … with 37 more rows</code></pre>
+</div>
+</div>
+<p>Other verbs include summary(), pivot_longer(), pivot_wider(), left_join(), inner_join(), etc.</p>
+</section>
+<section id="ggplot2" class="level5">
+<h5 class="anchored" data-anchor-id="ggplot2">ggplot2</h5>
+<ul>
+<li>The “gg” in ggplot2 stands for “Grammar of Graphics”. There is NO ggplot1.</li>
+</ul>
+<p>Quick example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plt <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(iris) <span class="co"># use the iris dataset for ggplot</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>plt <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Sepal.Length)) <span class="co"># add points to the graph</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plt <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Sepal.Length, <span class="at">color=</span>Species)) <span class="co"># color by species</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>plt <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Sepal.Length, <span class="at">color=</span>Species)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Sepal.Length, <span class="at">group=</span>Species), <span class="at">method=</span><span class="st">"lm"</span>, <span class="at">se=</span><span class="cn">FALSE</span>) <span class="co"># create a linear trendline for each species' data without the standard error margins</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+</section>
 </section>
 <section id="thursday-jan-19" class="level2">
 <h2 class="anchored" data-anchor-id="thursday-jan-19">Thursday, Jan 19</h2>
@@ -192,24 +494,280 @@ TIL
 <p>Include a <em>very brief</em> summary of what you learnt in this class here.</p>
 <p>Today, I learnt the following concepts in class:</p>
 <ol type="1">
-<li>Item 1</li>
-<li>Item 2</li>
-<li>Item 3</li>
+<li>How to use the ggThemeAssist package</li>
+<li>Basics of the forcats package and factors</li>
+<li>Basics of the map() function</li>
+<li>Brief purrr introduction</li>
 </ol>
 </div>
 </div>
-<p>Provide more concrete details here, e.g.,</p>
-<p>In class we learnt how to use the <code>map</code> function to create multiple regression diagnostic plots</p>
+<p>Provide more concrete details here:</p>
+<section id="ggthemeassist" class="level4">
+<h4 class="anchored" data-anchor-id="ggthemeassist">ggthemeassist</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfcol=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="fl">3.5</span>, <span class="fl">3.5</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">mgp=</span><span class="fu">c</span>(<span class="fl">2.4</span>, <span class="fl">0.8</span>, <span class="dv">0</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">split</span>(.<span class="sc">$</span>cyl) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> .x)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="cf">function</span>(x)<span class="fu">plot</span>(x, <span class="at">which=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg) <span class="sc">+</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span>displ, <span class="at">y=</span>hwy)) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)) <span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Plot of Displacement vs Highway Miles per Gallon"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Displacement"</span>, <span class="at">y =</span> <span class="st">"Highway mpg"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># highlight code --&gt; "addins" at top of RStudio --&gt; ggThemeAssist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="more-on-data-types" class="level4">
+<h4 class="anchored" data-anchor-id="more-on-data-types">More on data types</h4>
+<ol type="1">
+<li>string, ex. “this is a string”</li>
+<li>integer, ex. 3</li>
+<li>double, ex. 2.24</li>
+<li>booleans, ex. TRUE</li>
+<li><strong>Factors</strong> for categorical variables.</li>
+</ol>
+<section id="factors-and-forcats-package" class="level5">
+<h5 class="anchored" data-anchor-id="factors-and-forcats-package">Factors and forcats package</h5>
+<p>Factors are used in categorical variables, let’s look at an example:</p>
+<p>“var” contains the country code for people in North America</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"USA"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"USA"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CAN"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CAN"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CAN"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"CAN"</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MEX"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"MEX"</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "USA" "USA" "CAN" "CAN" "CAN" "CAN" "MEX" "MEX"</code></pre>
 </div>
 </div>
+<p>To tell R that this is categorical and not just a vector of strings, specify using as.factor()</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] USA USA CAN CAN CAN CAN MEX MEX
+Levels: CAN MEX USA</code></pre>
+</div>
+</div>
+<p>Another example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris,<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1         3.5          1.4         0.2  setosa
+2          4.9         3.0          1.4         0.2  setosa
+3          4.7         3.2          1.3         0.2  setosa</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] setosa     setosa     setosa     setosa     setosa     setosa    
+  [7] setosa     setosa     setosa     setosa     setosa     setosa    
+ [13] setosa     setosa     setosa     setosa     setosa     setosa    
+ [19] setosa     setosa     setosa     setosa     setosa     setosa    
+ [25] setosa     setosa     setosa     setosa     setosa     setosa    
+ [31] setosa     setosa     setosa     setosa     setosa     setosa    
+ [37] setosa     setosa     setosa     setosa     setosa     setosa    
+ [43] setosa     setosa     setosa     setosa     setosa     setosa    
+ [49] setosa     setosa     versicolor versicolor versicolor versicolor
+ [55] versicolor versicolor versicolor versicolor versicolor versicolor
+ [61] versicolor versicolor versicolor versicolor versicolor versicolor
+ [67] versicolor versicolor versicolor versicolor versicolor versicolor
+ [73] versicolor versicolor versicolor versicolor versicolor versicolor
+ [79] versicolor versicolor versicolor versicolor versicolor versicolor
+ [85] versicolor versicolor versicolor versicolor versicolor versicolor
+ [91] versicolor versicolor versicolor versicolor versicolor versicolor
+ [97] versicolor versicolor versicolor versicolor virginica  virginica 
+[103] virginica  virginica  virginica  virginica  virginica  virginica 
+[109] virginica  virginica  virginica  virginica  virginica  virginica 
+[115] virginica  virginica  virginica  virginica  virginica  virginica 
+[121] virginica  virginica  virginica  virginica  virginica  virginica 
+[127] virginica  virginica  virginica  virginica  virginica  virginica 
+[133] virginica  virginica  virginica  virginica  virginica  virginica 
+[139] virginica  virginica  virginica  virginica  virginica  virginica 
+[145] virginica  virginica  virginica  virginica  virginica  virginica 
+Levels: setosa versicolor virginica</code></pre>
+</div>
+</div>
+<p>Also look at mpg</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mpg, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 11
+  manufacturer model displ  year   cyl trans      drv     cty   hwy fl    class 
+  &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; 
+1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compa…
+2 audi         a4      1.8  1999     4 manual(m5) f        21    29 p     compa…
+3 audi         a4      2    2008     4 manual(m6) f        20    31 p     compa…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(mpg<span class="sc">$</span>class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] compact    compact    compact    compact    compact    compact   
+  [7] compact    compact    compact    compact    compact    compact   
+ [13] compact    compact    compact    midsize    midsize    midsize   
+ [19] suv        suv        suv        suv        suv        2seater   
+ [25] 2seater    2seater    2seater    2seater    suv        suv       
+ [31] suv        suv        midsize    midsize    midsize    midsize   
+ [37] midsize    minivan    minivan    minivan    minivan    minivan   
+ [43] minivan    minivan    minivan    minivan    minivan    minivan   
+ [49] pickup     pickup     pickup     pickup     pickup     pickup    
+ [55] pickup     pickup     pickup     suv        suv        suv       
+ [61] suv        suv        suv        suv        pickup     pickup    
+ [67] pickup     pickup     pickup     pickup     pickup     pickup    
+ [73] pickup     pickup     suv        suv        suv        suv       
+ [79] suv        suv        suv        suv        suv        pickup    
+ [85] pickup     pickup     pickup     pickup     pickup     pickup    
+ [91] subcompact subcompact subcompact subcompact subcompact subcompact
+ [97] subcompact subcompact subcompact subcompact subcompact subcompact
+[103] subcompact subcompact subcompact subcompact subcompact subcompact
+[109] midsize    midsize    midsize    midsize    midsize    midsize   
+[115] midsize    subcompact subcompact subcompact subcompact subcompact
+[121] subcompact subcompact suv        suv        suv        suv       
+[127] suv        suv        suv        suv        suv        suv       
+[133] suv        suv        suv        suv        suv        suv       
+[139] suv        suv        suv        compact    compact    midsize   
+[145] midsize    midsize    midsize    midsize    midsize    midsize   
+[151] suv        suv        suv        suv        midsize    midsize   
+[157] midsize    midsize    midsize    suv        suv        suv       
+[163] suv        suv        suv        subcompact subcompact subcompact
+[169] subcompact compact    compact    compact    compact    suv       
+[175] suv        suv        suv        suv        suv        midsize   
+[181] midsize    midsize    midsize    midsize    midsize    midsize   
+[187] compact    compact    compact    compact    compact    compact   
+[193] compact    compact    compact    compact    compact    compact   
+[199] suv        suv        pickup     pickup     pickup     pickup    
+[205] pickup     pickup     pickup     compact    compact    compact   
+[211] compact    compact    compact    compact    compact    compact   
+[217] compact    compact    compact    compact    compact    subcompact
+[223] subcompact subcompact subcompact subcompact subcompact midsize   
+[229] midsize    midsize    midsize    midsize    midsize    midsize   
+Levels: 2seater compact midsize minivan pickup subcompact suv</code></pre>
+</div>
+</div>
+<p>When working with data, we will often need to specify the data type so keeping track of things like this is very useful.</p>
+<p>The forcats package is useful when working with factors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>manufacturer <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(mpg<span class="sc">$</span>manufacturer)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fct_reorder</span>(manufacturer, mpg<span class="sc">$</span>hwy, min)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] audi       audi       audi       audi       audi       audi      
+  [7] audi       audi       audi       audi       audi       audi      
+ [13] audi       audi       audi       audi       audi       audi      
+ [19] chevrolet  chevrolet  chevrolet  chevrolet  chevrolet  chevrolet 
+ [25] chevrolet  chevrolet  chevrolet  chevrolet  chevrolet  chevrolet 
+ [31] chevrolet  chevrolet  chevrolet  chevrolet  chevrolet  chevrolet 
+ [37] chevrolet  dodge      dodge      dodge      dodge      dodge     
+ [43] dodge      dodge      dodge      dodge      dodge      dodge     
+ [49] dodge      dodge      dodge      dodge      dodge      dodge     
+ [55] dodge      dodge      dodge      dodge      dodge      dodge     
+ [61] dodge      dodge      dodge      dodge      dodge      dodge     
+ [67] dodge      dodge      dodge      dodge      dodge      dodge     
+ [73] dodge      dodge      ford       ford       ford       ford      
+ [79] ford       ford       ford       ford       ford       ford      
+ [85] ford       ford       ford       ford       ford       ford      
+ [91] ford       ford       ford       ford       ford       ford      
+ [97] ford       ford       ford       honda      honda      honda     
+[103] honda      honda      honda      honda      honda      honda     
+[109] hyundai    hyundai    hyundai    hyundai    hyundai    hyundai   
+[115] hyundai    hyundai    hyundai    hyundai    hyundai    hyundai   
+[121] hyundai    hyundai    jeep       jeep       jeep       jeep      
+[127] jeep       jeep       jeep       jeep       land rover land rover
+[133] land rover land rover lincoln    lincoln    lincoln    mercury   
+[139] mercury    mercury    mercury    nissan     nissan     nissan    
+[145] nissan     nissan     nissan     nissan     nissan     nissan    
+[151] nissan     nissan     nissan     nissan     pontiac    pontiac   
+[157] pontiac    pontiac    pontiac    subaru     subaru     subaru    
+[163] subaru     subaru     subaru     subaru     subaru     subaru    
+[169] subaru     subaru     subaru     subaru     subaru     toyota    
+[175] toyota     toyota     toyota     toyota     toyota     toyota    
+[181] toyota     toyota     toyota     toyota     toyota     toyota    
+[187] toyota     toyota     toyota     toyota     toyota     toyota    
+[193] toyota     toyota     toyota     toyota     toyota     toyota    
+[199] toyota     toyota     toyota     toyota     toyota     toyota    
+[205] toyota     toyota     toyota     volkswagen volkswagen volkswagen
+[211] volkswagen volkswagen volkswagen volkswagen volkswagen volkswagen
+[217] volkswagen volkswagen volkswagen volkswagen volkswagen volkswagen
+[223] volkswagen volkswagen volkswagen volkswagen volkswagen volkswagen
+[229] volkswagen volkswagen volkswagen volkswagen volkswagen volkswagen
+15 Levels: dodge jeep chevrolet ford land rover toyota lincoln ... honda</code></pre>
+</div>
+</div>
+<p>We will return to this in a few weeks for logistic regression.</p>
+</section>
+<section id="purr-package" class="level5">
+<h5 class="anchored" data-anchor-id="purr-package">purr package</h5>
+<p>This package provides functional programming tools. Example:</p>
+<p>Consider this task:</p>
+<ol type="1">
+<li>Take a number i</li>
+<li>Create a matrix with random entries of dimension i times i</li>
+<li>Compute the average of the elements of the matrix</li>
+<li>Print result</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#using for</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>results<span class="ot">&lt;-</span><span class="fu">c</span>()</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>){</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">runif</span>(i<span class="sc">*</span>i), <span class="at">nrow=</span>i</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  results[i]<span class="ot">&lt;-</span> <span class="fu">mean</span>(M)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.6714373 0.3771936 0.3582264 0.4206159 0.4391511 0.4749398 0.5284520
+ [8] 0.5228876 0.4932103 0.4906235</code></pre>
+</div>
+</div>
+<p>A functional way to approach the same problem: i -&gt; M[ixi] -&gt; mean(M)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(i){</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">matrix</span>(</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>i<span class="sc">*</span>i), <span class="at">nrow=</span>i</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 1
+
+[[2]]
+[1] 3
+
+[[3]]
+[1] 6
+
+[[4]]
+[1] 10
+
+[[5]]
+[1] 15
+
+[[6]]
+[1] 21
+
+[[7]]
+[1] 28
+
+[[8]]
+[1] 36
+
+[[9]]
+[1] 45
+
+[[10]]
+[1] 55</code></pre>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 
