@@ -4,8 +4,7 @@ author: "Leo Soccio"
 title-block-banner: true
 title-block-style: default
 toc: true
-format: html
-# format: pdf
+format: pdf
 ---
 
 ------------------------------------------------------------------------
